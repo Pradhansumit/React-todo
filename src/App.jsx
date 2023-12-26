@@ -61,6 +61,7 @@ export default function App() {
 
   return (
     <div className="App">
+      <Heading />
       <Input onChange={handleChange} onAdd={handleAddItems} message={message} />
       <ShowList
         lists={list}
@@ -71,15 +72,23 @@ export default function App() {
   );
 }
 
+function Heading() {
+  return <h1>TODO APP</h1>;
+}
+
 function Input({ onChange, onAdd, message, setMessage }) {
   return (
     <form>
       <input
+        className="message"
         type="text"
         value={message}
+        placeholder="Enter text here..."
         onChange={(e) => setMessage(e.target.value)}
       />
-      <button onClick={onAdd}>Add</button>
+      <button className="add-btn" onClick={onAdd}>
+        Add
+      </button>
     </form>
   );
 }
@@ -108,7 +117,9 @@ function ListItem({ list, onTickList, onDelete }) {
         {list.description}
       </span>
 
-      <button onClick={() => onDelete(list)}>Delete</button>
+      <button className="delete-btn" onClick={() => onDelete(list)}>
+        Delete
+      </button>
     </li>
   );
 }
