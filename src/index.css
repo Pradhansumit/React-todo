@@ -16,7 +16,7 @@ body {
 
   height: 100vh;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  background-image: url("public/bush.webp");
+  background-image: url("bush.webp");
 }
 
 .App {
@@ -25,7 +25,7 @@ body {
   align-items: center;
   justify-content: center;
   background-color: #ffffff91;
-  height: 400px;
+  /* height: 400px; */
   padding: 2rem;
   border-radius: 5px;
 }
@@ -50,7 +50,8 @@ h1 {
 }
 
 .message:focus {
-  border-bottom: solid #1f75fe 2px;
+  border-bottom: solid #1f75fe 4px;
+  outline: none;
 }
 
 .add-btn {
@@ -64,7 +65,7 @@ h1 {
 
 .add-btn:focus {
   border: none;
-  outline-color: burlywood;
+  outline-color: #065eed;
 }
 
 .delete-btn {
@@ -74,6 +75,10 @@ h1 {
   margin-left: 1rem;
   background-color: rgba(220, 20, 60, 0.894);
   color: white;
+}
+
+.delete-btn:focus {
+  outline: 3px solid rgb(155, 4, 34);
 }
 
 ul {

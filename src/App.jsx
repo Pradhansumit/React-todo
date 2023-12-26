@@ -1,26 +1,25 @@
 import { useState } from "react";
 
 export default function App() {
-  const taskList = [
-    {
-      id: 1,
-      description: "Hello World",
-      completed: false,
-    },
-    {
-      id: 2,
-      description: "Hello Sumit",
-      completed: false,
-    },
-    {
-      id: 3,
-      description: "Hello Richa",
-      completed: false,
-    },
-  ];
+  // const taskList = [
+  //   {
+  //     id: 1,
+  //     description: "Hello World",
+  //     completed: false,
+  //   },
+  //   {
+  //     id: 2,
+  //     description: "Hello React",
+  //     completed: false,
+  //   },
+  //   {
+  //     id: 3,
+  //     description: "Hello Javascript",
+  //     completed: false,
+  //   },
+  // ];
 
-  const [list, setList] = useState(taskList);
-  const [message, setMessage] = useState("");
+  const [list, setList] = useState([]);
 
   //random id generator
   function randomGenerator() {
@@ -28,21 +27,9 @@ export default function App() {
     return randomNumber;
   }
 
-  //create a new task
-  function handleChange(e) {
-    const newItem = {
-      id: randomGenerator(),
-      description: e.target.value,
-      completed: false,
-    };
-
-    setMessage(newItem);
-  }
-
   //add task to the list
-  function handleAddItems(e) {
-    e.preventDefault();
-    setList((li) => [...li, message]);
+  function handleAddItems(item) {
+    setList((li) => [item, ...li]);
   }
 
   //check whether it is completed or not
@@ -62,7 +49,7 @@ export default function App() {
   return (
     <div className="App">
       <Heading />
-      <Input onChange={handleChange} onAdd={handleAddItems} message={message} />
+      <Input onAdd={handleAddItems} randomGenerator={randomGenerator} />
       <ShowList
         lists={list}
         onTickList={handleCompletedTick}
@@ -76,9 +63,29 @@ function Heading() {
   return <h1>TODO APP</h1>;
 }
 
-function Input({ onChange, onAdd, message, setMessage }) {
+function Input({ onAdd, randomGenerator }) {
+  const [message, setMessage] = useState("");
+
+  //create a new task
+  function createTask() {
+    const newItem = {
+      id: randomGenerator(), // to create id...
+      description: message,
+      completed: false,
+    };
+
+    onAdd(newItem);
+    setMessage("");
+  }
+
+  //handle the submit function
+  function handleSubmit(e) {
+    e.preventDefault();
+    createTask();
+  }
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <input
         className="message"
         type="text"
@@ -86,17 +93,19 @@ function Input({ onChange, onAdd, message, setMessage }) {
         placeholder="Enter text here..."
         onChange={(e) => setMessage(e.target.value)}
       />
-      <button className="add-btn" onClick={onAdd}>
-        Add
-      </button>
+      <input type="submit" value="Add" className="add-btn" />
     </form>
   );
 }
 
 function ShowList({ lists, onTickList, onDelete }) {
+  let sortedList = lists.sort(
+    (a, b) => Number(a.completed) - Number(b.completed),
+  );
+
   return (
     <ul>
-      {lists.map((list) => (
+      {sortedList.map((list) => (
         <ListItem
           list={list}
           key={list.id}
